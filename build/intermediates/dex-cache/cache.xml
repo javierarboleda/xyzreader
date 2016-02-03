@@ -2,13 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/classes-2e2003e4ae655bb8de1a04abd7d52b7ed36c0517.jar" />
-    </item>
-    <item
         jar="/Users/javierarboleda/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -44,20 +37,6 @@
         <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-64999fef30dba5cf2bb6ce0a861fc03b11951f29.jar" />
     </item>
     <item
-        jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/libs/volley.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c68094cbd011a3f9dccbfe16e77a2cf43622e277">
-        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/volley-2b65fa5e8a34753de01da8f2e3965be189706f98.jar" />
-    </item>
-    <item
-        jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/classes-69f9fad49cd518944ce7e9e98706680e2106a5ce.jar" />
-    </item>
-    <item
         jar="/Users/javierarboleda/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/1.1.0/d51280dbb4e8539f6c3f369d516edc26f9d89d31/okhttp-1.1.0.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -77,6 +56,27 @@
         revision="22.0.1"
         sha1="11842de6a309c447b3a3d60d73ad637a87c58994">
         <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/classes-e1a2e0e4a327bc43c14881281b7e166c9ba94f26.jar" />
+    </item>
+    <item
+        jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/classes-2e2003e4ae655bb8de1a04abd7d52b7ed36c0517.jar" />
+    </item>
+    <item
+        jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/libs/volley.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c68094cbd011a3f9dccbfe16e77a2cf43622e277">
+        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/volley-2b65fa5e8a34753de01da8f2e3965be189706f98.jar" />
+    </item>
+    <item
+        jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/classes-69f9fad49cd518944ce7e9e98706680e2106a5ce.jar" />
     </item>
 
 </items>
