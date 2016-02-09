@@ -38,6 +38,12 @@ public class ItemsContract {
 			return BASE_URI.buildUpon().appendPath("items").build();
 		}
 
+		/** Matches: /items/ */
+		public static Uri buildDirUri(int _id) {
+			return BASE_URI.buildUpon().appendPath("items/all").appendPath(Long.toString(_id))
+					.build();
+		}
+
 		/** Matches: /items/[_id]/ */
 		public static Uri buildItemUri(long _id) {
 			return BASE_URI.buildUpon().appendPath("items").appendPath(Long.toString(_id)).build();

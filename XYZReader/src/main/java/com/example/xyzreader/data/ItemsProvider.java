@@ -24,6 +24,7 @@ public class ItemsProvider extends ContentProvider {
 
 	private static final int ITEMS = 0;
 	private static final int ITEMS__ID = 1;
+	private static final int ALL_ITEMS = 2;
 
 	private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -31,6 +32,7 @@ public class ItemsProvider extends ContentProvider {
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 		final String authority = ItemsContract.CONTENT_AUTHORITY;
 		matcher.addURI(authority, "items", ITEMS);
+		matcher.addURI(authority, "items/all/#", ALL_ITEMS);
 		matcher.addURI(authority, "items/#", ITEMS__ID);
 		return matcher;
 	}
@@ -106,6 +108,10 @@ public class ItemsProvider extends ContentProvider {
 	private SelectionBuilder buildSelection(Uri uri, int match, SelectionBuilder builder) {
 		final List<String> paths = uri.getPathSegments();
 		switch (match) {
+			case ALL_ITEMS: {
+				final String _id = paths.get(1);
+				return builder.table(Tables.ITEMS);
+			}
 			case ITEMS: {
 				return builder.table(Tables.ITEMS);
 			}
