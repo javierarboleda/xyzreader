@@ -28,8 +28,10 @@ public class ItemsContract {
 	}
 
 	public static class Items implements ItemsColumns {
-		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.example.xyzreader.items";
-		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.com.example.xyzreader.items";
+		public static final String CONTENT_TYPE =
+				"vnd.android.cursor.dir/vnd.com.example.xyzreader.items";
+		public static final String CONTENT_ITEM_TYPE =
+				"vnd.android.cursor.item/vnd.com.example.xyzreader.items";
 
         public static final String DEFAULT_SORT = PUBLISHED_DATE + " DESC";
 
@@ -39,9 +41,9 @@ public class ItemsContract {
 		}
 
 		/** Matches: /items/ */
-		public static Uri buildDirUri(int _id) {
-			return BASE_URI.buildUpon().appendPath("items/all").appendPath(Long.toString(_id))
-					.build();
+		public static Uri buildDirUri(String _id) {
+			return BASE_URI.buildUpon().appendPath("items").appendPath("mainlist")
+                    .appendPath(_id).build();
 		}
 
 		/** Matches: /items/[_id]/ */

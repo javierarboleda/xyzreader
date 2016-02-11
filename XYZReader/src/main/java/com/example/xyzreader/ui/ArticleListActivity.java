@@ -171,7 +171,7 @@ public class ArticleListActivity extends ActionBarActivity implements
             super(view);
             thumbnailView = (DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
             titleView = (TextView) view.findViewById(R.id.article_title);
-            subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
+//            subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
         }
     }
 }

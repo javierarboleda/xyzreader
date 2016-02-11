@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="/Users/javierarboleda/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.1.1/fc4723b92bc802625a05395d98ed4245e2d489b6/okhttp-3.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="fc4723b92bc802625a05395d98ed4245e2d489b6">
+        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/okhttp-3.1.1-0666ccda9d05afe59ae5f8534f7cf079c99f7e80.jar" />
+    </item>
+    <item
         jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/exploded-aar/com.android.support/palette-v7/22.0.0/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -21,13 +28,6 @@
         revision="22.0.1"
         sha1="def3eff2b7b4774d96ae15b07b3fc0111edbfe24">
         <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-64999fef30dba5cf2bb6ce0a861fc03b11951f29.jar" />
-    </item>
-    <item
-        jar="/Users/javierarboleda/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/1.1.0/d51280dbb4e8539f6c3f369d516edc26f9d89d31/okhttp-1.1.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="d51280dbb4e8539f6c3f369d516edc26f9d89d31">
-        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/okhttp-1.1.0-145428453dcaa799673af5a4d8a1af88475d5e51.jar" />
     </item>
     <item
         jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/libs/internal_impl-22.2.0.jar"
@@ -58,6 +58,13 @@
         <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/classes-ebe19e353402528d851e36bb5aa75a2ee589e161.jar" />
     </item>
     <item
+        jar="/Users/javierarboleda/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.6.0/98476622f10715998eacf9240d6b479f12c66143/okio-1.6.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/okio-1.6.0-83070373bea3fd0f6e2495502a3deac3276ae0f4.jar" />
+    </item>
+    <item
         jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -70,6 +77,13 @@
         revision="22.0.1"
         sha1="5b37cf49773f7f17aca9830efd3053b0cac56728">
         <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/classes-99eb01c5b0334456138a1a532869b6885fea915e.jar" />
+    </item>
+    <item
+        jar="/Users/javierarboleda/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/build/intermediates/pre-dexed/debug/picasso-2.5.2-50f158788619a9968df94717e18ac162bb1fd0b3.jar" />
     </item>
     <item
         jar="/Users/javierarboleda/dev/android/training/udacity/projects/xyzreader/XYZReader/libs/volley.jar"

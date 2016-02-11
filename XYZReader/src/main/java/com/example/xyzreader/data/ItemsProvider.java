@@ -24,7 +24,7 @@ public class ItemsProvider extends ContentProvider {
 
 	private static final int ITEMS = 0;
 	private static final int ITEMS__ID = 1;
-	private static final int ALL_ITEMS = 2;
+	private static final int MAIN_LIST_ITEMS = 2;
 
 	private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -32,7 +32,7 @@ public class ItemsProvider extends ContentProvider {
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 		final String authority = ItemsContract.CONTENT_AUTHORITY;
 		matcher.addURI(authority, "items", ITEMS);
-		matcher.addURI(authority, "items/all/#", ALL_ITEMS);
+		matcher.addURI(authority, "items/mainlist/#", MAIN_LIST_ITEMS);
 		matcher.addURI(authority, "items/#", ITEMS__ID);
 		return matcher;
 	}
@@ -57,15 +57,19 @@ public class ItemsProvider extends ContentProvider {
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-		final SelectionBuilder builder = buildSelection(uri);
-		Cursor cursor = builder.where(selection, selectionArgs).query(db, projection, sortOrder);
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+						String sortOrder) {
+        if (mOpenHelper == null) {
+            mOpenHelper = new ItemsDatabase(getContext());
+        }
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        final SelectionBuilder builder = buildSelection(uri);
+        Cursor cursor = builder.where(selection, selectionArgs).query(db, projection, sortOrder);
         if (cursor != null) {
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
         }
         return cursor;
-	}
+    }
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
@@ -108,10 +112,11 @@ public class ItemsProvider extends ContentProvider {
 	private SelectionBuilder buildSelection(Uri uri, int match, SelectionBuilder builder) {
 		final List<String> paths = uri.getPathSegments();
 		switch (match) {
-			case ALL_ITEMS: {
-				final String _id = paths.get(1);
-				return builder.table(Tables.ITEMS);
-			}
+			case MAIN_LIST_ITEMS: {
+				String _id = paths.get(2);
+                //_id = "what the";
+                return builder.table(Tables.ITEMS).where(ItemsContract.Items.TITLE + "!=?", _id);
+            }
 			case ITEMS: {
 				return builder.table(Tables.ITEMS);
 			}

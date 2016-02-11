@@ -2,7 +2,7 @@ package com.example.xyzreader.remote;
 
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
+//import com.squareup. OkHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class RemoteEndpointUtil {
     private static final String TAG = "RemoteEndpointUtil";
@@ -45,28 +49,38 @@ public class RemoteEndpointUtil {
     }
 
     static String fetchPlainText(URL url) throws IOException {
-        return new String(fetch(url), "UTF-8" );
+        //return new String(fetch(url), "UTF-8" );
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+
     }
 
-    static byte[] fetch(URL url) throws IOException {
-        InputStream in = null;
-
-        try {
-            OkHttpClient client = new OkHttpClient();
-            HttpURLConnection conn = client.open(url);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            in = conn.getInputStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(buffer)) > 0) {
-                out.write(buffer, 0, bytesRead);
-            }
-            return out.toByteArray();
-
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-        }
-    }
+//    static byte[] fetch(URL url) throws IOException {
+//        InputStream in = null;
+//
+//        try {
+//            OkHttpClient client = new OkHttpClient();
+//            HttpURLConnection conn = client.open(url);
+//            ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            in = conn.getInputStream();
+//            byte[] buffer = new byte[1024];
+//            int bytesRead;
+//            while ((bytesRead = in.read(buffer)) > 0) {
+//                out.write(buffer, 0, bytesRead);
+//            }
+//            return out.toByteArray();
+//
+//        } finally {
+//            if (in != null) {
+//                in.close();
+//            }
+//        }
+//    }
 }

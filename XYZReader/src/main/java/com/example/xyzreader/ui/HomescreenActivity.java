@@ -8,21 +8,30 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
+import com.example.xyzreader.data.ItemsDatabase;
+import com.example.xyzreader.data.ItemsProvider;
 import com.example.xyzreader.data.UpdaterService;
+import com.squareup.picasso.Picasso;
+
+import java.util.Random;
 
 public class HomescreenActivity extends Activity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -43,6 +52,41 @@ public class HomescreenActivity extends Activity implements
         if (savedInstanceState == null) {
             refresh();
         }
+
+        final ViewHolder vh = new ViewHolder(findViewById(R.id.top_story_frame_layout));
+
+        Cursor cursor = getContentResolver().query(ItemsContract.Items.buildDirUri(),
+                null,
+                null,
+                null,
+                null);
+
+        int position = new Random().nextInt(cursor.getCount()) + 1;
+
+        cursor.moveToPosition(position);
+
+        String title = cursor.getString(ArticleLoader.Query.TITLE);
+        String date = DateUtils.getRelativeTimeSpanString(
+                cursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
+                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_ALL).toString();
+
+        String author = cursor.getString(ArticleLoader.Query.AUTHOR);
+        String url = cursor.getString(ArticleLoader.Query.PHOTO_URL);
+
+        TextView dateTextView = (TextView) findViewById(R.id.date_text_view);
+        TextView authorTextView = (TextView) findViewById(R.id.author_text_view);
+        TextView titleTextView = (TextView) findViewById(R.id.title_text_view);
+
+        ImageView imageView = (ImageView) findViewById(R.id.top_story_image_view);
+
+        dateTextView.setText(date);
+        authorTextView.setText(author);
+        titleTextView.setText(title);
+
+        Picasso.with(this)
+                .load(url)
+                .into(imageView);
 
     }
 
@@ -82,7 +126,30 @@ public class HomescreenActivity extends Activity implements
         // okay, need to get a cursor, use new "Uri buildDirUri(int _id)" from ItemsContract
         // to get cursor with all results, then want to get id from first result, and use that
         // to get results without one of the items
+
+//        Cursor c = getContentResolver().query(ItemsContract.Items.buildDirUri(),
+//                null,
+//                null,
+//                null,
+//                null);
+//
+//        c.moveToPosition(0);
+//        int a = c.getInt(ArticleLoader.Query._ID);
+//
+//        c.moveToPosition(1);
+//        int b = c.getInt(ArticleLoader.Query._ID);
+//
+//        c.moveToPosition(2);
+//        int d = c.getInt(ArticleLoader.Query._ID);
+//
+//        String s = c.getString(2);
+//
+//        int id = c.getInt(ArticleLoader.Query._ID);
+//        long l = 2345;
+//        return ArticleLoader.newInstanceForMainList(this, s);
         return ArticleLoader.newAllArticlesInstance(this);
+
+
     }
 
     @Override
@@ -139,21 +206,23 @@ public class HomescreenActivity extends Activity implements
             mCursor.moveToPosition(position);
 
             String title = mCursor.getString(ArticleLoader.Query.TITLE);
-            String subtitle = DateUtils.getRelativeTimeSpanString(
+            String author = mCursor.getString(ArticleLoader.Query.AUTHOR);
+            String date = DateUtils.getRelativeTimeSpanString(
                     mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
                     System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                    DateUtils.FORMAT_ABBREV_ALL).toString()
-                    + " by "
-                    + mCursor.getString(ArticleLoader.Query.AUTHOR);
+                    DateUtils.FORMAT_ABBREV_ALL).toString();
             String url = mCursor.getString(ArticleLoader.Query.THUMB_URL);
             ImageLoader imageLoader =
                     ImageLoaderHelper.getInstance(HomescreenActivity.this).getImageLoader();
             float aspectRatio = mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO);
 
             holder.titleView.setText(title);
-            holder.subtitleView.setText(subtitle);
+            holder.author.setText(author);
+            holder.date.setText(date);
             holder.thumbnailView.setImageUrl(url, imageLoader);
             holder.thumbnailView.setAspectRatio(aspectRatio);
+
+            Log.d("HomescreenActivity", title);
 
         }
 
@@ -166,13 +235,15 @@ public class HomescreenActivity extends Activity implements
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public DynamicHeightNetworkImageView thumbnailView;
         public TextView titleView;
-        public TextView subtitleView;
+        public TextView author;
+        public TextView date;
 
         public ViewHolder(View view) {
             super(view);
             thumbnailView = (DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
             titleView = (TextView) view.findViewById(R.id.article_title);
-            subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
+            author = (TextView) view.findViewById(R.id.article_author);
+            date = (TextView) view.findViewById(R.id.article_date);
         }
     }
 
