@@ -2,19 +2,13 @@ package com.example.xyzreader.ui;
 
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,8 +20,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
-import com.example.xyzreader.data.ItemsDatabase;
-import com.example.xyzreader.data.ItemsProvider;
 import com.example.xyzreader.data.UpdaterService;
 import com.squareup.picasso.Picasso;
 
@@ -36,11 +28,22 @@ import java.util.Random;
 public class HomescreenActivity extends Activity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static final String TOP_STORY_URL = "topStoryUrl";
+    public static final String TOP_STORY_AUTHOR = "topStoryAuthor";
+    public static final String TOP_STORY_DATE = "topStoryDate";
+    public static final String TOP_STORY_TITLE = "topStoryTitle";
+
     private RecyclerView mRecyclerView;
+
+    private String mTopStoryDate;
+    private String mTopStoryTitle;
+    private String mTopStoryAuthor;
+    private String mTopStoryUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_homescreen);
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
@@ -51,9 +54,23 @@ public class HomescreenActivity extends Activity implements
 
         if (savedInstanceState == null) {
             refresh();
+            loadTopStory();
+        } else {
+            mTopStoryTitle = savedInstanceState.getString(TOP_STORY_TITLE);
+            mTopStoryAuthor = savedInstanceState.getString(TOP_STORY_AUTHOR);
+            mTopStoryDate = savedInstanceState.getString(TOP_STORY_DATE);
+            mTopStoryUrl = savedInstanceState.getString(TOP_STORY_URL);
+
+            loadTopStoryViews(mTopStoryTitle, mTopStoryDate, mTopStoryAuthor, mTopStoryUrl);
         }
 
-        final ViewHolder vh = new ViewHolder(findViewById(R.id.top_story_frame_layout));
+
+    }
+
+    /**
+     *  This method loads randomly a story into the top collapsing toolbar
+     */
+    private void loadTopStory() {
 
         Cursor cursor = getContentResolver().query(ItemsContract.Items.buildDirUri(),
                 null,
@@ -61,19 +78,36 @@ public class HomescreenActivity extends Activity implements
                 null,
                 null);
 
-        int position = new Random().nextInt(cursor.getCount()) + 1;
+        // We want to grab a story that isn't at the top so you don't notice it's a repeated story
+        // to do this, going to pick a random story from the second half of total articles
+        int position;
+        int cursorCount = cursor.getCount();
+
+        if (cursorCount > 1) {
+            int half = cursorCount / 2;
+            int remainder = cursorCount % 2;
+            position = new Random().nextInt(half) + half + remainder;
+        } else {
+            position = 1;
+        }
 
         cursor.moveToPosition(position);
 
-        String title = cursor.getString(ArticleLoader.Query.TITLE);
-        String date = DateUtils.getRelativeTimeSpanString(
+        mTopStoryTitle = cursor.getString(ArticleLoader.Query.TITLE);
+        mTopStoryDate = DateUtils.getRelativeTimeSpanString(
                 cursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
                 System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
                 DateUtils.FORMAT_ABBREV_ALL).toString();
 
-        String author = cursor.getString(ArticleLoader.Query.AUTHOR);
-        String url = cursor.getString(ArticleLoader.Query.PHOTO_URL);
+        mTopStoryAuthor = cursor.getString(ArticleLoader.Query.AUTHOR);
+        mTopStoryUrl = cursor.getString(ArticleLoader.Query.PHOTO_URL);
 
+        cursor.close();
+
+        loadTopStoryViews(mTopStoryTitle, mTopStoryDate, mTopStoryAuthor, mTopStoryUrl);
+    }
+
+    private void loadTopStoryViews(String title, String date, String author, String url) {
         TextView dateTextView = (TextView) findViewById(R.id.date_text_view);
         TextView authorTextView = (TextView) findViewById(R.id.author_text_view);
         TextView titleTextView = (TextView) findViewById(R.id.title_text_view);
@@ -87,7 +121,6 @@ public class HomescreenActivity extends Activity implements
         Picasso.with(this)
                 .load(url)
                 .into(imageView);
-
     }
 
     @Override
@@ -111,6 +144,16 @@ public class HomescreenActivity extends Activity implements
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(TOP_STORY_TITLE, mTopStoryTitle);
+        outState.putString(TOP_STORY_DATE, mTopStoryDate);
+        outState.putString(TOP_STORY_AUTHOR, mTopStoryAuthor);
+        outState.putString(TOP_STORY_URL, mTopStoryUrl);
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
     }
@@ -123,33 +166,8 @@ public class HomescreenActivity extends Activity implements
     // LoaderManager LoaderCallbacks: below methods belong to callbacks for LoaderManager
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        // okay, need to get a cursor, use new "Uri buildDirUri(int _id)" from ItemsContract
-        // to get cursor with all results, then want to get id from first result, and use that
-        // to get results without one of the items
 
-//        Cursor c = getContentResolver().query(ItemsContract.Items.buildDirUri(),
-//                null,
-//                null,
-//                null,
-//                null);
-//
-//        c.moveToPosition(0);
-//        int a = c.getInt(ArticleLoader.Query._ID);
-//
-//        c.moveToPosition(1);
-//        int b = c.getInt(ArticleLoader.Query._ID);
-//
-//        c.moveToPosition(2);
-//        int d = c.getInt(ArticleLoader.Query._ID);
-//
-//        String s = c.getString(2);
-//
-//        int id = c.getInt(ArticleLoader.Query._ID);
-//        long l = 2345;
-//        return ArticleLoader.newInstanceForMainList(this, s);
         return ArticleLoader.newAllArticlesInstance(this);
-
-
     }
 
     @Override
@@ -246,15 +264,4 @@ public class HomescreenActivity extends Activity implements
             date = (TextView) view.findViewById(R.id.article_date);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 }
