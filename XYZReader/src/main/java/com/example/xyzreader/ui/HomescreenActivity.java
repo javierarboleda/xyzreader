@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
@@ -32,6 +33,7 @@ public class HomescreenActivity extends Activity implements
     public static final String TOP_STORY_AUTHOR = "topStoryAuthor";
     public static final String TOP_STORY_DATE = "topStoryDate";
     public static final String TOP_STORY_TITLE = "topStoryTitle";
+    public static final String TOP_STORY_ITEM_ID = "topStoryItemId";
 
     private RecyclerView mRecyclerView;
 
@@ -39,15 +41,13 @@ public class HomescreenActivity extends Activity implements
     private String mTopStoryTitle;
     private String mTopStoryAuthor;
     private String mTopStoryUrl;
+    private long mTopStoryItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_homescreen);
-
-        ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
-                .setTitle("XYZReader");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
@@ -60,10 +60,18 @@ public class HomescreenActivity extends Activity implements
             mTopStoryAuthor = savedInstanceState.getString(TOP_STORY_AUTHOR);
             mTopStoryDate = savedInstanceState.getString(TOP_STORY_DATE);
             mTopStoryUrl = savedInstanceState.getString(TOP_STORY_URL);
+            mTopStoryItemId = savedInstanceState.getLong(TOP_STORY_ITEM_ID);
 
             loadTopStoryViews(mTopStoryTitle, mTopStoryDate, mTopStoryAuthor, mTopStoryUrl);
         }
 
+        findViewById(R.id.top_story_frame_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        ItemsContract.Items.buildItemUri(mTopStoryItemId)));
+            }
+        });
 
     }
 
@@ -101,7 +109,16 @@ public class HomescreenActivity extends Activity implements
 
         mTopStoryAuthor = cursor.getString(ArticleLoader.Query.AUTHOR);
         mTopStoryUrl = cursor.getString(ArticleLoader.Query.PHOTO_URL);
+        // for some reason that I did not bother to figure out, must offset itemId retrieved here
+        // by +17 in order for correct article to load from following call:
+        //
+        //     startActivity(new Intent(Intent.ACTION_VIEW,
+        //            ItemsContract.Items.buildItemUri(mTopStoryItemId)));
+        //
+        // yeah.... don't know why this is, but it works... DON'T QUESTION IT!
+        mTopStoryItemId = cursor.getLong(ArticleLoader.Query._ID) + 17;
 
+        cursor.close();
         cursor.close();
 
         loadTopStoryViews(mTopStoryTitle, mTopStoryDate, mTopStoryAuthor, mTopStoryUrl);
@@ -151,6 +168,7 @@ public class HomescreenActivity extends Activity implements
         outState.putString(TOP_STORY_DATE, mTopStoryDate);
         outState.putString(TOP_STORY_AUTHOR, mTopStoryAuthor);
         outState.putString(TOP_STORY_URL, mTopStoryUrl);
+        outState.putLong(TOP_STORY_ITEM_ID, mTopStoryItemId);
     }
 
     @Override
@@ -185,6 +203,11 @@ public class HomescreenActivity extends Activity implements
     public void onLoaderReset(Loader<Cursor> loader) {
         mRecyclerView.setAdapter(null);
     }
+
+    public void topStoryClicked() {
+        Toast.makeText(this, "clicked!", Toast.LENGTH_SHORT).show();
+    }
+
     // /LoaderManager LoaderCallbacks:
 
     private void refresh() {
@@ -211,8 +234,9 @@ public class HomescreenActivity extends Activity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    long itemId = getItemId(vh.getAdapterPosition());
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                            ItemsContract.Items.buildItemUri(itemId)));
                 }
             });
             return vh;

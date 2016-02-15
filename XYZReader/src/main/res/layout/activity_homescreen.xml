@@ -14,11 +14,8 @@
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance=
-                "@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-            app:expandedTitleTextAppearance="@android:color/transparent"
             app:expandedTitleMarginStart="72dp"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@drawable/toolbar_scrim"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout
@@ -49,7 +46,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/TopStoryDateText"
-                        android:text="Jun 19, 2013"
                         android:layout_alignParentBottom="true"/>
 
                     <TextView
@@ -57,7 +53,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/TopStoryAuthorText"
-                        android:text="by Carl Sagan"
                         android:layout_above="@+id/date_text_view"/>
 
                     <TextView
@@ -65,7 +60,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/TopStoryTitleText"
-                        android:text="Mysteries of the Universe Solved"
                         android:layout_above="@+id/author_text_view"/>
 
                 </RelativeLayout>
@@ -82,22 +76,6 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:nestedScrollingEnabled="true">-->
-        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_marginTop="16dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:text="@string/cupcake_ipsum"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_marginLeft="16dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_marginRight="16dp" />&ndash;&gt;-->
-
-    <!--</ScrollView>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
