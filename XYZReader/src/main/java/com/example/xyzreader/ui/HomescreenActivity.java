@@ -110,15 +110,14 @@ public class HomescreenActivity extends Activity implements
         mTopStoryAuthor = cursor.getString(ArticleLoader.Query.AUTHOR);
         mTopStoryUrl = cursor.getString(ArticleLoader.Query.PHOTO_URL);
         // for some reason that I did not bother to figure out, must offset itemId retrieved here
-        // by +17 in order for correct article to load from following call:
+        // by +cursorCount in order for correct article to load from following call:
         //
         //     startActivity(new Intent(Intent.ACTION_VIEW,
         //            ItemsContract.Items.buildItemUri(mTopStoryItemId)));
         //
         // yeah.... don't know why this is, but it works... DON'T QUESTION IT!
-        mTopStoryItemId = cursor.getLong(ArticleLoader.Query._ID) + 17;
+        mTopStoryItemId = cursor.getLong(ArticleLoader.Query._ID) + cursorCount;
 
-        cursor.close();
         cursor.close();
 
         loadTopStoryViews(mTopStoryTitle, mTopStoryDate, mTopStoryAuthor, mTopStoryUrl);
