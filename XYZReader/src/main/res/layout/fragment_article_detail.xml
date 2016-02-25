@@ -31,45 +31,6 @@
                     app:layout_collapseMode="parallax"
                     android:scaleType="centerCrop"/>
 
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@drawable/scrim" />-->
-
-                <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginLeft="16dp"-->
-                    <!--android:layout_marginBottom="4dp">-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/story_date_text_view"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--style="@style/TopStoryDateText"-->
-                        <!--android:layout_alignParentBottom="true"-->
-                        <!--android:text="Jun 13, 2013"/>-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/story_author_text_view"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--style="@style/TopStoryAuthorText"-->
-                        <!--android:layout_above="@+id/story_date_text_view"-->
-                        <!--android:text="Billy Bob"/>-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/story_title_text_view"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--style="@style/TopStoryTitleText"-->
-                        <!--android:layout_above="@+id/story_author_text_view"-->
-                        <!--android:text="3 Great Dessert Recipes for This Weekend"/>-->
-
-                <!--</RelativeLayout>-->
-
-
-
             </FrameLayout>
 
             <ImageButton
@@ -149,31 +110,32 @@
 
                 <TextView
                     android:id="@+id/article_body"
-                    style="?android:attr/textAppearanceMedium"
+                    style="@style/ArticleText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
                     android:layout_marginRight="@dimen/detail_inner_horiz_margin"
                     android:paddingBottom="@dimen/detail_body_bottom_margin"
-                    android:textColor="@color/ltgray"
-                    android:textColorLink="@color/theme_accent"
-                    android:textSize="@dimen/detail_body_text_size"
                     android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier" />
 
             </LinearLayout>
         </FrameLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <ImageButton android:id="@+id/share_fab"
-        android:stateListAnimator="@anim/fab_state_list_anim"
-        android:background="@drawable/add_fab_background"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+    <android.support.design.widget.FloatingActionButton
+        app:fabSize="normal"
+        app:elevation="16dp"
+        app:pressedTranslationZ="12dp"
+
+        android:id="@+id/share_fab"
         android:src="@drawable/ic_share"
-        android:elevation="@dimen/fab_elevation"
-        android:contentDescription="@string/action_share" />
+
+        app:layout_anchor="@id/detail_app_bar_layout"
+        app:layout_anchorGravity="bottom|right|end"
+
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
